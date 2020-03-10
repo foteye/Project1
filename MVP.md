@@ -63,5 +63,7 @@
 ### Follow Ups (Deep Dives)
 * Google Sheet API
   * Can we export/import as CSV/JSON
-* Good Reads API Documentation (What information can we get)
-  * 
+  * How to store and retrieve data
+* Good Reads API Documentation 
+  * What information can we retrieve
+  
