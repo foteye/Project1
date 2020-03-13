@@ -1,8 +1,97 @@
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body></body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" type="text/css" href="assets/css/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+        <script src="assets/js/semantic.min.js"></script>
+        <script src='assets/js/main.js' defer></script>
+    </head>
+    <body>
+        <div class="ui dashboard">
+            <h1 class='header'>
+                <span>Welcome
+                    <span id='user_given_name'></span>, to the Open Book Project</span>
+            </h1>
+            <div class="ui divider"></div>
+            <div class="ui three column grid">
+                <div class="seven wide column">
+                    <h3>
+                        <span>Wishlist</span>
+                    </h3>
+                    <div class="ui fluid vertical menu">
+                        <a class="item">
+                            <h4 class="ui medium header book_header">Fart in a Jar</h4>
+                            <h5 class="ui medium book_author">Andy Griffiths</h5>
+                            <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                        </a>
+                        <a class="item">
+                            <h4 class="ui medium header book_header">52 Storey Treehouse</h4>
+                            <h5 class="ui medium book_author">Andy Griffiths</h5>
+                            <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                        </a>
+                        <a class="item">
+                            <h4 class="ui medium header book_header">104 Storey Treehouse</h4>
+                            <h5 class="ui medium book_author">Andy Griffiths</h5>
+                            <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="two wide column middle aligned centered ui grid">
+                    <div class='row'>
+                        <a class="ui basic button" tabindex="0">
+                            &plus;
+                        </a>
+                    </div>
+                    <div class='row'>
+                        <a class="ui basic button" tabindex="0">
+                            &minus;
+                        </a>
+                    </div>
+                </div>
+                <div class="seven wide column">
+                    <h3>
+                        <span>Library</span>
+                    </h3>
+                    <div class="ui fluid vertical menu">
+                        <a class="item">
+                            <h4 class="ui medium header book_header">The Day My Bum Went Psycho</h4>
+                            <h5 class="ui medium book_author">Andy Griffiths</h5>
+                            <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                        </a>
+                        <a class="item">
+                            <h4 class="ui medium header book_header">Just Tricking!</h4>
+                            <h5 class="ui medium book_author">Andy Griffiths</h5>
+                            <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                        </a>
+                        <a class="item">
+                            <h4 class="ui medium header book_header">Just Disgusting!</h4>
+                            <h5 class="ui medium book_author">Andy Griffiths</h5>
+                            <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="ui modal">
+                <div class="header">
+                    Login To Open Book API Project
+                </div>
+                <div class="ui one column grid login_area centered">
+                    <div class="row">
+                        <span class='login_label'>Username:</span><input class='ui input login_input' id='username'>
+                    </div>
+                    <div class="row">
+                        <span class='login_label'>Password:</span><input class='ui input login_input' type='password' id='password'>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui button" id='register'>Register</div>
+                    <div class="ui button" id='login'>Login</div>
+                </div>
+            </div>
+        </body>
+    </body>
 </html>
