@@ -1,18 +1,12 @@
 //Add data attribute to buttons
-<<<<<<< HEAD
 //Add event listener, send data.item[i].id to Database
 //From list, call Google API with id, display, title, author, image
-=======
-//Add event listener, send data.item[i].title data.item[i].author to Databas
->>>>>>> 3441a1b39262e2e49ee612396e19147aabb61564
 
 function bookSearch() {
   // store user input
   var search = document.getElementById("search").value;
   // clear any previous data
   document.getElementById("results").innerHTML = "";
-
-  debugger;
 
   // make a data request
   $.ajax({
