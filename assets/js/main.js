@@ -18,7 +18,7 @@ function login(){
     if (inputPWHash == retrievedPWHash){
         $("#username").val('');
         $("#password").val('');
-        $('.ui.modal').modal('hide');
+        $('#modal_login').modal('hide');
         successfulLogin(inputUserName);
     } else {
         // TODO: Flesh out error message on page
@@ -39,6 +39,11 @@ $("#login").click(function(){
     }
 });
 
+$("#register").click(function(){
+    $('#modal_login').modal('hide');
+    $('#modal_register').modal('show');
+});
+
 /*
     Util Functions
 */ 
@@ -57,4 +62,4 @@ function hash(string){
     return hash;
 }
 
-$('.ui.modal').modal('show');
+$('#modal_login').modal('show');

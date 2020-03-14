@@ -75,7 +75,7 @@
                     </div>
                 </div>
             </div>
-            <div class="ui modal">
+            <div class="ui modal" id='modal_login'>
                 <div class="header">
                     Login To Open Book API Project
                 </div>
@@ -85,6 +85,32 @@
                     </div>
                     <div class="row">
                         <span class='login_label'>Password:</span><input class='ui input login_input' type='password' id='password'>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui button" id='register'>Register</div>
+                    <div class="ui button" id='login'>Login</div>
+                </div>
+            </div>
+            <div class="ui modal" id='modal_register'>
+                <div class="header">
+                    Open Book API Project Registration
+                </div>
+                <div class="ui one column grid login_area centered">
+                    <div class="row">
+                        <span class='login_label'>First Name:</span><input class='ui input login_input' id='reg_firstname'>
+                    </div>
+                    <div class="row">
+                        <span class='login_label'>Last Name:</span><input class='ui input login_input' id='reg_surname'>
+                    </div>
+                    <div class="row">
+                        <span class='login_label'>Username:</span><input class='ui input login_input' id='reg_username'>
+                    </div>
+                    <div class="row">
+                        <span class='login_label'>Password:</span><input class='ui input login_input' type='password' id='reg_password'>
+                    </div>
+                    <div class="row">
+                        <span class='login_label'>Confirm Password:</span><input class='ui input login_input' type='password' id='reg_conf_password'>
                     </div>
                 </div>
                 <div class="actions">
