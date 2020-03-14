@@ -1,3 +1,6 @@
+//Add data attribute to buttons
+//Add event listener, send data.item[i].title data.item[i].author to Database
+
 function bookSearch() {
   // store user input
   var search = document.getElementById("search").value;
