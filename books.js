@@ -1,5 +1,5 @@
 //Add data attribute to buttons
-//Add event listener, send data.item[i].title data.item[i].author to Database
+//Add event listener, send data.item[i].title data.item[i].author to Databas
 
 function bookSearch() {
   // store user input

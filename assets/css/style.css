@@ -1,0 +1,15 @@
+.login_label {
+    position: relative;
+}
+
+.login_input {
+    margin-left: 10px;
+}
+
+.login_area {
+    margin: 25px !important;
+}
+
+.dashboard {
+    padding: 20px;
+}
