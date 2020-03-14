@@ -1,11 +1,14 @@
 //Add data attribute to buttons
-//Add event listener, send data.item[i].title data.item[i].author to Database
+//Add event listener, send data.item[i].id to Database
+//From list, call Google API with id, display, title, author, image
 
 function bookSearch() {
   // store user input
   var search = document.getElementById("search").value;
   // clear any previous data
   document.getElementById("results").innerHTML = "";
+
+  debugger;
 
   // make a data request
   $.ajax({
@@ -29,19 +32,24 @@ function bookSearch() {
         var newH2 = document.createElement("h2");
         var newH3 = document.createElement("h3");
         var newH4 = document.createElement("h4");
-        var newAnchor = document.createElement("a");
+        var newLibrary = document.createElement("a");
+        var newWishItem = document.createElement("a");
 
         // add classes to elements
         newColSm4.className = "col-sm-12 col-md-8 col-md-offset-2 item";
-        newAnchor.className = "btn btn-primary";
+        newLibrary.className = "btn btn-primary";
+        newWishItem.className = "btn btn-primary";
 
         // add text to tags
         newH2.innerText = jdata.title;
-        newAnchor.innerText = "Add to Library";
+        newLibrary.innerText = "Add to Library";
+        newWishItem.innerText = "Add to Wishlist";
 
         // add attributes
-        newAnchor.href = jdata.infoLink;
-        newAnchor.setAttribute("target", "_blank");
+        newLibrary.href = jdata.infoLink;
+        newLibrary.setAttribute("data", data.items[i].id);
+        newWishItem.href = jdata.infoLink;
+        newWishItem.setAttribute("data", data.items[i].id);
 
         // create image if one exists
         if (jdata.imageLinks) {
@@ -69,7 +77,8 @@ function bookSearch() {
         newColSm4.appendChild(newH2);
         newColSm4.appendChild(newH3);
         newColSm4.appendChild(newH4);
-        newColSm4.appendChild(newAnchor);
+        newColSm4.appendChild(newLibrary);
+        newColSm4.appendChild(newWishItem);
 
         // add results to the screen
         var results = document.getElementById("results");
