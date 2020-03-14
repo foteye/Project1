@@ -18,12 +18,37 @@ function login(){
     if (inputPWHash == retrievedPWHash){
         $("#username").val('');
         $("#password").val('');
-        $('.ui.modal').modal('hide');
+        $('#modal_login').modal('hide');
         successfulLogin(inputUserName);
     } else {
         // TODO: Flesh out error message on page
         console.log("error");
     }
+}
+
+// TODO: Shash validate and save the login details to sheet
+function register(){
+
+    //Validation goes here, pull out variables
+    var firstname = $("#reg_firstname").val();
+    var surname = $("#reg_surname").val();
+    var username = $("#reg_username").val();
+    var password = $("#reg_password").val();
+    var conf_password = $("#reg_conf_password").val();
+
+    var savedToSheets = true; // should be success of saving function
+
+    if (!savedToSheets){
+        return false;
+    }
+    
+    $("#reg_firstname").val('');
+    $("#reg_surname").val('');
+    $("#reg_username").val('');
+    $("#reg_password").val('');
+    $("#reg_conf_password").val('');
+    return true;
+
 }
 
 /*
@@ -35,6 +60,20 @@ $("#login").click(function(){
         login();
     } else {
         // TODO: Flesh out error message on page
+        console.log('error');
+    }
+});
+
+$("#register").click(function(){
+    $('#modal_login').modal('hide');
+    $('#modal_register').modal('show');
+});
+
+$("#complete").click(function(){
+    if (register()){
+        $('#modal_register').modal('hide');
+        $('#modal_login').modal('show');
+    } else {
         console.log('error');
     }
 });
@@ -57,4 +96,4 @@ function hash(string){
     return hash;
 }
 
-$('.ui.modal').modal('show');
+$('#modal_login').modal('show');
