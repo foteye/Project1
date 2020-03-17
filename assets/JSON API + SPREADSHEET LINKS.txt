@@ -1,0 +1,19 @@
+USER WISHLIST API response: 
+https://script.google.com/macros/s/AKfycbwVrYRdHSRnb7G0i47eHapATpF9Oq0gK7puMNJw7_QjZOGqIzte/exec
+
+USER LIBRARY API response: 
+https://script.google.com/macros/s/AKfycbzASd3jjn5fASVi-zQmDu8htgu-OO2Y-H-29d1_ngPwBTJDIez_/exec
+
+USER LOGIN API response: 
+https://script.google.com/macros/s/AKfycbz8k7FlnUeb6MjCj7xS6P0boxvrR-kHu4c5MEAD45zY4Li8EZg/exec
+
+
+GOOGLE SPREADSHEETS: 
+Wishlist: 
+https://docs.google.com/spreadsheets/d/1YKjl5pJYuUIfl9aawVIyT7V6BVxRRgq9AaYkT7XjQvM/edit#gid=0
+
+Library: 
+https://docs.google.com/spreadsheets/d/1Y0nkTO_Knn2ZyvjAqpoVVfjnuqomR4ejOPivOKxpqEg/edit#gid=0
+
+User Login: 
+https://docs.google.com/spreadsheets/d/1FtF7epH8pOVS-lvHslflrgztTcaIwMX6yY5SLSKfyDI/edit#gid=0

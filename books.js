@@ -15,7 +15,7 @@ function bookSearch() {
     dataType: "json",
     type: "GET",
     // on success, do this
-    success: function(data) {
+    success: function (data) {
       // display data being passed through
       console.log(data);
 
@@ -30,8 +30,9 @@ function bookSearch() {
         var newH2 = document.createElement("h2");
         var newH3 = document.createElement("h3");
         var newH4 = document.createElement("h4");
-        var newLibrary = document.createElement("a");
-        var newWishItem = document.createElement("a");
+        let newLibrary = document.createElement("a");
+        let newWishItem = document.createElement("a");
+        //Shash: I've changed 'var' to 'let' for the button elements//
 
         // add classes to elements
         newColSm4.className = "col-sm-12 col-md-8 col-md-offset-2 item";
@@ -43,11 +44,43 @@ function bookSearch() {
         newLibrary.innerText = "Add to Library";
         newWishItem.innerText = "Add to Wishlist";
 
-        // add attributes
-        newLibrary.href = jdata.infoLink;
+        // add attributes (Shash: I've commented out the HREF attributes so the buttons won't change the page)
+        // newLibrary.href = jdata.infoLink;
         newLibrary.setAttribute("data", data.items[i].id);
-        newWishItem.href = jdata.infoLink;
+        // newWishItem.href = jdata.infoLink;
         newWishItem.setAttribute("data", data.items[i].id);
+
+        //SHASH: I've added event listeners to the wishlist and library buttons to retreive the 'book ID' (which was set to each button on lines 49 and 51. The book ID will be used to retreive data for the wishlist/library display page//
+        //TO DO: link to user login to add user name to spreadsheet when user clicks on button 
+        newLibrary.addEventListener("click", function addToLibrary() {
+          let bookID = newLibrary.getAttribute("data")
+          //add book ID to library spreadsheet
+          const libURL = "https://script.google.com/macros/s/AKfycbzASd3jjn5fASVi-zQmDu8htgu-OO2Y-H-29d1_ngPwBTJDIez_/exec"
+
+          $.ajax({
+            url: libURL,
+            data: "Book_ID=" + bookID, //TO DO: After we link everything together, need to add USER NAME to data to "post"
+            method: "POST",
+            success: function (data) {
+              console.log(data)
+            }
+          })
+        })
+
+        newWishItem.addEventListener("click", function addToWishlist() {
+          let bookID = newWishItem.getAttribute("data")
+          //add book ID to wishlist spreadsheet
+          const wsURL = "https://script.google.com/macros/s/AKfycbwVrYRdHSRnb7G0i47eHapATpF9Oq0gK7puMNJw7_QjZOGqIzte/exec"
+
+          $.ajax({
+            url: wsURL,
+            data: "Book_ID=" + bookID, //TO DO: Add USER NAME to data after everything is linked
+            method: "POST",
+            success: function (data) {
+              console.log(data)
+            }
+          })
+        })
 
         // create image if one exists
         if (jdata.imageLinks) {

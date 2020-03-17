@@ -1,117 +1,155 @@
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link rel="stylesheet" type="text/css" href="assets/css/semantic.min.css">
-        <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-        <script src="assets/js/semantic.min.js"></script>
-        <script src='assets/js/main.js' defer></script>
-    </head>
-    <body>
-        <div class="ui dashboard">
-            <h1 class='header'>
-                <span>Welcome
-                    <span id='user_given_name'></span>, to the Open Book Project</span>
-            </h1>
-            <div class="ui divider"></div>
-            <div class="ui three column grid">
-                <div class="eight wide column">
-                    <h3>
-                        <span>Wishlist</span>
-                    </h3>
-                    <div class="ui fluid vertical menu">
-                        <a class="item">
-                            <h4 class="ui medium header book_header">Fart in a Jar</h4>
-                            <h5 class="ui medium book_author">Andy Griffiths</h5>
-                            <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                        </a>
-                        <a class="item">
-                            <h4 class="ui medium header book_header">52 Storey Treehouse</h4>
-                            <h5 class="ui medium book_author">Andy Griffiths</h5>
-                            <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                        </a>
-                        <a class="item">
-                            <h4 class="ui medium header book_header">104 Storey Treehouse</h4>
-                            <h5 class="ui medium book_author">Andy Griffiths</h5>
-                            <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                        </a>
-                    </div>
-                </div>
-                <div class="eight wide column">
-                    <h3>
-                        <span>Library</span>
-                    </h3>
-                    <div class="ui fluid vertical menu">
-                        <a class="item">
-                            <h4 class="ui medium header book_header">The Day My Bum Went Psycho</h4>
-                            <h5 class="ui medium book_author">Andy Griffiths</h5>
-                            <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                        </a>
-                        <a class="item">
-                            <h4 class="ui medium header book_header">Just Tricking!</h4>
-                            <h5 class="ui medium book_author">Andy Griffiths</h5>
-                            <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                        </a>
-                        <a class="item">
-                            <h4 class="ui medium header book_header">Just Disgusting!</h4>
-                            <h5 class="ui medium book_author">Andy Griffiths</h5>
-                            <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                        </a>
-                    </div>
-                </div>
-                <div class="sixteen wide column middle aligned centered ui grid">
-                    <div class='row'>
-                        <a class="ui basic button fluid" tabindex="0" id='add_book'>
-                            Add a Book
-                        </a>
-                    </div>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="assets/js/semantic.min.js"></script>
+    <script src='assets/js/main.js' defer></script>
+</head>
+
+<body>
+    <div class="ui dashboard">
+        <h1 class='header'>
+            <span>Welcome
+                <span id='user_given_name'></span>, to the Open Book Project</span>
+        </h1>
+        <div class="ui divider"></div>
+        <div class="ui three column grid">
+            <div class="eight wide column">
+                <h3>
+                    <span>Wishlist</span>
+                </h3>
+                <div class="ui fluid vertical menu">
+                    <a class="item">
+                        <h4 class="ui medium header book_header">Fart in a Jar</h4>
+                        <h5 class="ui medium book_author">Andy Griffiths</h5>
+                        <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget
+                            risus varius blandit.</p>
+                    </a>
+                    <a class="item">
+                        <h4 class="ui medium header book_header">52 Storey Treehouse</h4>
+                        <h5 class="ui medium book_author">Andy Griffiths</h5>
+                        <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget
+                            risus varius blandit.</p>
+                    </a>
+                    <a class="item">
+                        <h4 class="ui medium header book_header">104 Storey Treehouse</h4>
+                        <h5 class="ui medium book_author">Andy Griffiths</h5>
+                        <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget
+                            risus varius blandit.</p>
+                    </a>
                 </div>
             </div>
-            <div class="ui modal" id='modal_login'>
-                <div class="header">
-                    Login To Open Book API Project
-                </div>
-                <div class="ui one column grid login_area centered">
-                    <div class="row">
-                        <span class='login_label'>Username:</span><input class='ui input login_input' id='username'>
-                    </div>
-                    <div class="row">
-                        <span class='login_label'>Password:</span><input class='ui input login_input' type='password' id='password'>
-                    </div>
-                </div>
-                <div class="actions">
-                    <div class="ui button" id='register'>Register</div>
-                    <div class="ui button" id='login'>Login</div>
+            <div class="eight wide column">
+                <h3>
+                    <span>Library</span>
+                </h3>
+                <div class="ui fluid vertical menu">
+                    <a class="item">
+                        <h4 class="ui medium header book_header">The Day My Bum Went Psycho</h4>
+                        <h5 class="ui medium book_author">Andy Griffiths</h5>
+                        <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget
+                            risus varius blandit.</p>
+                    </a>
+                    <a class="item">
+                        <h4 class="ui medium header book_header">Just Tricking!</h4>
+                        <h5 class="ui medium book_author">Andy Griffiths</h5>
+                        <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget
+                            risus varius blandit.</p>
+                    </a>
+                    <a class="item">
+                        <h4 class="ui medium header book_header">Just Disgusting!</h4>
+                        <h5 class="ui medium book_author">Andy Griffiths</h5>
+                        <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget
+                            risus varius blandit.</p>
+                    </a>
                 </div>
             </div>
-            <div class="ui modal" id='modal_register'>
-                <div class="header">
-                    Open Book API Project Registration
+            <div class="sixteen wide column middle aligned centered ui grid">
+                <div class='row'>
+                    <a class="ui basic button fluid" tabindex="0" id='add_book'>
+                        Add a Book
+                    </a>
                 </div>
-                <div class="ui one column grid login_area centered">
+            </div>
+        </div>
+        <div class="ui modal" id='modal_login'>
+            <div class="header">
+                Login To Open Book API Project
+            </div>
+            <div class="ui one column grid login_area centered">
+                <div class="row">
+                    <span class='login_label'>Username:</span><input class='ui input login_input' id='username'>
+                </div>
+                <div class="row">
+                    <span class='login_label'>Password:</span><input class='ui input login_input' type='password'
+                        id='password'>
+                </div>
+            </div>
+            <div class="actions">
+                <div class="ui button" id='register'>Register</div>
+                <div class="ui button" id='login'>Login</div>
+            </div>
+        </div>
+        <div class="ui modal" id='modal_register'>
+            <div class="header">
+                Open Book API Project Registration
+            </div>
+            <form id="registration_form">
+                <!-- <div class="ui one column grid login_area centered">
                     <div class="row">
-                        <span class='login_label'>First Name:</span><input class='ui input login_input' id='reg_firstname'>
+                        <span class='login_label'>First Name:</span><input class='ui input login_input'
+                            id='reg_firstname' name="First-Name">
                     </div>
                     <div class="row">
-                        <span class='login_label'>Last Name:</span><input class='ui input login_input' id='reg_surname'>
+                        <span class='login_label'>Last Name:</span><input class='ui input login_input' id='reg_surname' name="Surname">
                     </div>
                     <div class="row">
-                        <span class='login_label'>Username:</span><input class='ui input login_input' id='reg_username'>
+                        <span class='login_label'>Username:</span><input class='ui input login_input' id='reg_username' name="Username">
                     </div>
                     <div class="row">
-                        <span class='login_label'>Password:</span><input class='ui input login_input' type='password' id='reg_password'>
+                        <span class='login_label'>Password:</span><input class='ui input login_input' type='password'
+                            id='reg_password' name="Password">
                     </div>
                     <div class="row">
-                        <span class='login_label'>Confirm:</span><input class='ui input login_input' type='password' id='reg_conf_password'>
+                        <span class='login_label'>Confirm:</span><input class='ui input login_input' type='password'
+                            id='reg_conf_password'>
                     </div>
                 </div>
                 <div class="actions">
                     <div class="ui button" id='complete'>Complete Registration</div>
+                </div> -->
+
+                <!--CHANGES FROM SHASH: changed layout to <form> structure as the "POST" function wasn't able to access data in above format-->
+                <br>
+                <span class='login_label'>First Name:</span><input class='ui input login_input' id='reg_firstname'
+                    name="First_Name">
+                <br><br>
+                <span class='login_label'>Last Name:</span><input class='ui input login_input' id='reg_surname'
+                    name="Surname">
+                <br><br>
+                <span class='login_label'>Username:</span><input class='ui input login_input' id='reg_username'
+                    name="Username">
+                <br><br>
+                <span class='login_label'>Password:</span><input class='ui input login_input' type='password'
+                    id='reg_password' name="Password">
+                <br><br>
+                <span class='login_label'>Confirm:</span><input class='ui input login_input' type='password'
+                    id='reg_conf_password'>
+                <br><br>
+                <div class="actions">
+                    <div class="ui button" id='complete'>Complete Registration</div>
                 </div>
-            </div>
-        </body>
-    </body>
+            </form>
+
+        </div>
+</body>
+</body>
+
 </html>
