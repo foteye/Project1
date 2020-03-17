@@ -20,56 +20,22 @@
                 <span id='user_given_name'></span>, to the Open Book Project</span>
         </h1>
         <div class="ui divider"></div>
-        <div class="ui three column grid">
+        <div class="ui three column grid" id="userLists">
             <div class="eight wide column">
                 <h3>
                     <span>Wishlist</span>
                 </h3>
-                <div class="ui fluid vertical menu">
-                    <a class="item">
-                        <h4 class="ui medium header book_header">Fart in a Jar</h4>
-                        <h5 class="ui medium book_author">Andy Griffiths</h5>
-                        <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget
-                            risus varius blandit.</p>
-                    </a>
-                    <a class="item">
-                        <h4 class="ui medium header book_header">52 Storey Treehouse</h4>
-                        <h5 class="ui medium book_author">Andy Griffiths</h5>
-                        <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget
-                            risus varius blandit.</p>
-                    </a>
-                    <a class="item">
-                        <h4 class="ui medium header book_header">104 Storey Treehouse</h4>
-                        <h5 class="ui medium book_author">Andy Griffiths</h5>
-                        <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget
-                            risus varius blandit.</p>
-                    </a>
-                </div>
+                <ul class="ui fluid vertical menu" id="wishlistItems">
+                    <!--add user specific wishlist-->
+                </ul>
             </div>
             <div class="eight wide column">
                 <h3>
                     <span>Library</span>
                 </h3>
-                <div class="ui fluid vertical menu">
-                    <a class="item">
-                        <h4 class="ui medium header book_header">The Day My Bum Went Psycho</h4>
-                        <h5 class="ui medium book_author">Andy Griffiths</h5>
-                        <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget
-                            risus varius blandit.</p>
-                    </a>
-                    <a class="item">
-                        <h4 class="ui medium header book_header">Just Tricking!</h4>
-                        <h5 class="ui medium book_author">Andy Griffiths</h5>
-                        <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget
-                            risus varius blandit.</p>
-                    </a>
-                    <a class="item">
-                        <h4 class="ui medium header book_header">Just Disgusting!</h4>
-                        <h5 class="ui medium book_author">Andy Griffiths</h5>
-                        <p class="book_blurb">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget
-                            risus varius blandit.</p>
-                    </a>
-                </div>
+                <ul class="ui fluid vertical menu" id="libraryItems">
+                    <!--Add user specific library-->
+                </ul>
             </div>
             <div class="sixteen wide column middle aligned centered ui grid">
                 <div class='row'>
@@ -79,6 +45,27 @@
                 </div>
             </div>
         </div>
+        <!--BOOK SEARCH-->
+        <div id="bookSearch">
+            <div>
+                <div class=>
+                    <h1>BOOK FINDER</h1>
+                    <!-- user input -->
+                    <input id="search" placeholder="Title or Author" />
+                    <br /><br />
+                    <!-- user submit -->
+                    <button id="searchBtn">
+                        SEARCH
+                    </button>
+                    <button id="return"> RETURN TO HOME</button>
+                </div>
+                <div>
+                    <!-- display results -->
+                    <div id="results"></div>
+                </div>
+            </div>
+        </div>
+
         <div class="ui modal" id='modal_login'>
             <div class="header">
                 Login To Open Book API Project
