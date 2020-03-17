@@ -6,103 +6,96 @@ bookSearchPage.hide()
 let username = ""
 $('#modal_login').modal('show');
 
-
 function successfulLogin(username) {
-    // TODO: lookup user
-    $("#user_given_name").text(username); // TODO: Remove hardcode
-
+  // TODO: lookup user
+  $("#user_given_name").text(username); // TODO: Remove hardcode
 }
 
 // Authenticates user based on a hash retrieved from a call to google sheets
 //(UPDATE FROM SHASH: added function to compare login input to 'user details spreadsheet')
 function login() {
-    var inputUserName = $("#username").val();
-    var retrievedPWHash = '3149054'; //foti // TODO: Retrieve password hash from google sheet with username
-    var inputPW = $("#password").val();
-    var inputPWHash = hash(inputPW);
-    username = inputUserName
-    successfulLogin(username)
+  var inputUserName = $("#username").val();
+  var retrievedPWHash = "3149054"; //foti // TODO: Retrieve password hash from google sheet with username
+  var inputPW = $("#password").val();
+  var inputPWHash = hash(inputPW);
+  username = inputUserName;
+  successfulLogin(username);
 
+  // if (inputPWHash == retrievedPWHash) {
+  //     $("#username").val('');
+  //     $("#password").val('');
+  //     $('#modal_login').modal('hide');
+  //     successfulLogin(inputUserName);
+  // } else {
+  //     // TODO: Flesh out error message on page
+  //     console.log("error");
+  // }
 
-    // if (inputPWHash == retrievedPWHash) {
-    //     $("#username").val('');
-    //     $("#password").val('');
-    //     $('#modal_login').modal('hide');
-    //     successfulLogin(inputUserName);
-    // } else {
-    //     // TODO: Flesh out error message on page
-    //     console.log("error");
-    // }
+  //Compare user login details current users
+  function checkUser(inputUserName, inputPW) {
+    const queryURL =
+      "https://script.google.com/macros/s/AKfycbz8k7FlnUeb6MjCj7xS6P0boxvrR-kHu4c5MEAD45zY4Li8EZg/exec";
 
-    //Compare user login details current users
-    function checkUser(inputUserName, inputPW) {
-        const queryURL = "https://script.google.com/macros/s/AKfycbz8k7FlnUeb6MjCj7xS6P0boxvrR-kHu4c5MEAD45zY4Li8EZg/exec"
-
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).then(function (response) {
-            if (response.length > 0) {
-                response.forEach(element => {
-                    if (element[2] == inputUserName && element[3] == inputPW) {
-                        $("#username").val('');
-                        $("#password").val('');
-                        $('#modal_login').modal('hide');
-                        successfulLogin(inputUserName);
-                    }
-                    else {
-                        // TODO: Flesh out error message on page
-                        console.log("error");
-                    }
-                });
-
-            }
-        })
-    }
-    checkUser(inputUserName, inputPW)
-    return true
-
-
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    }).then(function(response) {
+      if (response.length > 0) {
+        response.forEach(element => {
+          if (element[2] == inputUserName && element[3] == inputPW) {
+            $("#username").val("");
+            $("#password").val("");
+            $("#modal_login").modal("hide");
+            successfulLogin(inputUserName);
+          } else {
+            // TODO: Flesh out error message on page
+            console.log("error");
+          }
+        });
+      }
+    });
+  }
+  checkUser(inputUserName, inputPW);
+  return true;
 }
 
 // TODO: Shash validate and save the login details to sheet (UPDATE FROM SHASH: I have added function to post data to spreadsheet)
 function register() {
+  //Validation goes here, pull out variables
+  // var firstname = $("#reg_firstname").val();
+  // var surname = $("#reg_surname").val();
+  // var username = $("#reg_username").val();
+  // var password = $("#reg_password").val();
+  // var conf_password = $("#reg_conf_password").val();
 
-    //Validation goes here, pull out variables
-    // var firstname = $("#reg_firstname").val();
-    // var surname = $("#reg_surname").val();
-    // var username = $("#reg_username").val();
-    // var password = $("#reg_password").val();
-    // var conf_password = $("#reg_conf_password").val();
+  //Update user detail spreadsheet:
+  var input = $("form#registration_form :input").serialize();
+  var userDetails = input;
+  console.log(userDetails);
+  const URL =
+    "https://script.google.com/macros/s/AKfycbz8k7FlnUeb6MjCj7xS6P0boxvrR-kHu4c5MEAD45zY4Li8EZg/exec";
 
-    //Update user detail spreadsheet:
-    var input = $('form#registration_form :input').serialize()
-    var userDetails = input
-    console.log(userDetails)
-    const URL = "https://script.google.com/macros/s/AKfycbz8k7FlnUeb6MjCj7xS6P0boxvrR-kHu4c5MEAD45zY4Li8EZg/exec"
-
-    $.ajax({
-        url: URL,
-        data: userDetails,//bookID
-        method: "POST",
-        success: function (data) {
-            console.log(data)
-        }
-    })
-
-    var savedToSheets = true; // should be success of saving function
-
-    if (!savedToSheets) {
-        return false;
+  $.ajax({
+    url: URL,
+    data: userDetails, //bookID
+    method: "POST",
+    success: function(data) {
+      console.log(data);
     }
+  });
 
-    $("#reg_firstname").val('');
-    $("#reg_surname").val('');
-    $("#reg_username").val('');
-    $("#reg_password").val('');
-    $("#reg_conf_password").val('');
-    return true;
+  var savedToSheets = true; // should be success of saving function
 
+  if (!savedToSheets) {
+    return false;
+  }
+
+  $("#reg_firstname").val("");
+  $("#reg_surname").val("");
+  $("#reg_username").val("");
+  $("#reg_password").val("");
+  $("#reg_conf_password").val("");
+  return true;
 }
 
 /*
@@ -124,36 +117,45 @@ $("#login").click(function () {
     }
 });
 
-$("#register").click(function () {
-    $('#modal_login').modal('hide');
-    $('#modal_register').modal('show');
+$("#register").click(function() {
+  $("#modal_login").modal("hide");
+  $("#modal_register").modal("show");
 });
 
-$("#complete").click(function (event) {
-    event.preventDefault()
-    if (register()) {
-        $('#modal_register').modal('hide');
-        $('#modal_login').modal('show');
-    } else {
-        console.log('error');
-    }
+$("#complete").click(function(event) {
+  event.preventDefault();
+  if (register()) {
+    $("#modal_register").modal("hide");
+    $("#modal_login").modal("show");
+  } else {
+    console.log("error");
+  }
 });
 
-$("#add_book").click(function () {
-    $("#userLists").hide()
-    bookSearchPage.show()
-})
+$("#add_book").click(function() {
+  $("#userLists").hide();
+  bookSearchPage.show();
+});
 
-$("#return").click(function () {
-    let wishlistID = []
-    let libraryID = []
-    $("#wishlistItems").empty()
-    $("#libraryItems").empty()
-    getWishlist(wishlistID)
-    getLibrary(libraryID)
-    bookSearchPage.hide()
-    $("#userLists").show()
-})
+$("#return").click(function() {
+  let wishlistID = [];
+  let libraryID = [];
+  $("#wishlistItems").empty();
+  $("#libraryItems").empty();
+  getWishlist(wishlistID);
+  getLibrary(libraryID);
+  bookSearchPage.hide();
+  $("#userLists").show();
+});
+
+//clear search history option//
+$("#clear").click(function() {
+  document.getElementById("results").innerHTML = "";
+  document.getElementById("search").value = "";
+});
+
+//remove book button
+$("#remove").click(function() {});
 
 /*
     Util Functions
@@ -161,16 +163,16 @@ $("#return").click(function () {
 
 //Returns a hash of a given string
 function hash(string) {
-    var hash = 0;
-    if (string.length == 0) {
-        return hash;
-    }
-    for (var i = 0; i < string.length; i++) {
-        var char = string.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash; // Convert to 32bit integer
-    }
+  var hash = 0;
+  if (string.length == 0) {
     return hash;
+  }
+  for (var i = 0; i < string.length; i++) {
+    var char = string.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return hash;
 }
 
 // Posts a book ID to either a wishlist URL or a library URL
@@ -277,51 +279,102 @@ function bookSearch() {
                 // add results to the screen
                 $("#results").append(bookContainer);
             }
-        }
-    });
-}
+          });
+        });
 
+        newWishItem.addEventListener("click", function addToWishlist() {
+          let bookID = newWishItem.getAttribute("data");
+          //add book ID to wishlist spreadsheet
+          const wsURL =
+            "https://script.google.com/macros/s/AKfycbwVrYRdHSRnb7G0i47eHapATpF9Oq0gK7puMNJw7_QjZOGqIzte/exec";
+
+          $.ajax({
+            url: wsURL,
+            data: "Book_ID=" + bookID + "&User=" + username, //TO DO: Add USER NAME to data after everything is linked
+            method: "POST",
+            success: function(data) {
+              console.log(data);
+            }
+          });
+        });
+
+        // create image if one exists
+        if (jdata.imageLinks) {
+          newImg.src = jdata.imageLinks.thumbnail;
+        } else {
+          newImg.src = "img/nobook.jpg";
+        }
+
+        // create publish date if one exists
+        if (jdata.publishedDate) {
+          newH4.innerText = jdata.publishedDate;
+        } else {
+          newH4.innerText = "no publish date found";
+        }
+
+        // create author if one exists
+        if (jdata.authors) {
+          newH3.innerText = jdata.authors[0];
+        } else {
+          newH3.innerText = "no author found";
+        }
+
+        // add tags to document
+        newColSm4.appendChild(newImg);
+        newColSm4.appendChild(newH2);
+        newColSm4.appendChild(newH3);
+        newColSm4.appendChild(newH4);
+        newColSm4.appendChild(newLibrary);
+        newColSm4.appendChild(newWishItem);
+
+        // add results to the screen
+        var results = document.getElementById("results");
+        results.appendChild(newColSm4);
+      }
+    }
+  });
+}
 
 //Add wishlist and library items:
 //Store wishlist items specific to user in array
-let wishlistID = []
+let wishlistID = [];
 function getWishlist(wishlistID) {
-    const wishlistURL = "https://script.google.com/macros/s/AKfycbwVrYRdHSRnb7G0i47eHapATpF9Oq0gK7puMNJw7_QjZOGqIzte/exec"
-    $.ajax({
-        url: wishlistURL,
-        method: "GET"
-    }).then(function (wsResponse) {
-        if (wsResponse.length > 0) {
-            wsResponse.forEach(bookID => {
-
-                if (bookID[1] === username) {
-                    wishlistID.push(bookID[0])
-                }
-            });
-            console.log("wishlist=" + wishlistID)
-            appendWishlist(wishlistID)
+  const wishlistURL =
+    "https://script.google.com/macros/s/AKfycbwVrYRdHSRnb7G0i47eHapATpF9Oq0gK7puMNJw7_QjZOGqIzte/exec";
+  $.ajax({
+    url: wishlistURL,
+    method: "GET"
+  }).then(function(wsResponse) {
+    if (wsResponse.length > 0) {
+      wsResponse.forEach(bookID => {
+        if (bookID[1] === username) {
+          wishlistID.push(bookID[0]);
         }
-    })
+      });
+      console.log("wishlist=" + wishlistID);
+      appendWishlist(wishlistID);
+    }
+  });
 }
 //Store library items specific to user in array
-let libraryID = []
+let libraryID = [];
 function getLibrary(libraryID) {
-    const libraryURL = "https://script.google.com/macros/s/AKfycbzASd3jjn5fASVi-zQmDu8htgu-OO2Y-H-29d1_ngPwBTJDIez_/exec"
-    $.ajax({
-        url: libraryURL,
-        method: "GET"
-    }).then(function (libResponse) {
-        if (libResponse.length > 0) {
-            libResponse.forEach(bookID => {
-
-                if (bookID[1] === username) {
-                    libraryID.push(bookID[0])
-                }
-            });
-            console.log("library=" + libraryID)
-            appendLibrary(libraryID)
+  const libraryURL =
+    "https://script.google.com/macros/s/AKfycbzASd3jjn5fASVi-zQmDu8htgu-OO2Y-H-29d1_ngPwBTJDIez_/exec";
+  $.ajax({
+    url: libraryURL,
+    method: "GET"
+  }).then(function(libResponse) {
+    if (libResponse.length > 0) {
+      libResponse.forEach(bookID => {
+        if (bookID[1] === username) {
+          libraryID.push(bookID[0]);
         }
-    })
+      });
+      console.log("library=" + libraryID);
+      appendLibrary(libraryID);
+    }
+  });
 }
 
 //append wishlist items from array to HTML:
