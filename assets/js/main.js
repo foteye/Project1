@@ -216,14 +216,21 @@ function bookSearch() {
                 // create elements
                 var bookContainer = $("<div></div>");
                 var bookThumb = $("<img></img>");
+                var bookData = $("<div></div>");
                 var bookTitle = $("<h2></h2>");
                 var bookAuthor = $("<h3></h3>");
                 var bookYear = $("<h4></h4>");
+                var buttonDiv = $("<div></div>");
                 let addToLibrary = $("<button></button>");
                 let addToWishlist = $("<button></button>");
                 
                 // add classes to elements
-                $(bookContainer).addClass("col-sm-12 col-md-8 col-md-offset-2 item");
+                $(bookContainer).addClass("row book_item");
+                $(bookData).addClass("book_data eight wide column");
+                $(bookThumb).addClass("three wide column");
+                $(buttonDiv).addClass("three wide column");
+                $(addToLibrary).addClass('medium ui button book_button');
+                $(addToWishlist).addClass('medium ui button book_button');
 
                 // add text to tags
                 $(bookTitle).text(jdata.title);
@@ -255,11 +262,13 @@ function bookSearch() {
 
                 // add tags to document
                 bookContainer.append(bookThumb);
-                bookContainer.append(bookTitle);
-                bookContainer.append(bookAuthor);
-                bookContainer.append(bookYear);
-                bookContainer.append(addToLibrary);
-                bookContainer.append(addToWishlist);
+                bookData.append(bookTitle);
+                bookData.append(bookAuthor);
+                bookData.append(bookYear);
+                bookContainer.append(bookData);
+                buttonDiv.append(addToLibrary);
+                buttonDiv.append(addToWishlist);
+                bookContainer.append(buttonDiv);
 
                 // add results to the screen
                 $("#results").append(bookContainer);
@@ -267,11 +276,6 @@ function bookSearch() {
         }
     });
 }
-
-
-
-
-
 
 
 //Add wishlist and library items:
@@ -316,7 +320,6 @@ function getLibrary(libraryID) {
     })
 }
 
-
 //append wishlist items from array to HTML:
 function appendWishlist(wishlistID) {
     for (let i = 0; i < wishlistID.length; i++) {
@@ -324,7 +327,13 @@ function appendWishlist(wishlistID) {
         console.log(wishlistID[i])
         $.ajax({
             url: url,
-            method: "GET"
+            method: "GET",
+            success: function(data){
+                console.log("Success", data);
+            },
+            error: function(error){
+                console.log("Error", error);
+            }
         }).then(function (response) {
             let wishlistSection = $("#wishlistItems")
             let bookList = $("<ul>").text(response.items[0].volumeInfo.title + "-" + response.items[0].volumeInfo.authors[0])
@@ -340,7 +349,13 @@ function appendLibrary(libraryID) {
         let liburl = "https://www.googleapis.com/books/v1/volumes?q=" + libraryID[j]
         $.ajax({
             url: liburl,
-            method: "GET"
+            method: "GET",
+            success: function(data){
+                console.log("Success", data);
+            },
+            error: function(error){
+                console.log("Error", error);
+            }
         }).then(function (response) {
             let librarySection = $("#libraryItems")
             let libBookList = $("<ul>").text(response.items[0].volumeInfo.title + "-" + response.items[0].volumeInfo.authors[0]);

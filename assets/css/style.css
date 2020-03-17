@@ -13,3 +13,15 @@
 .dashboard {
     padding: 20px;
 }
+
+.book_item {
+    margin: 20px 0;
+}
+
+.book_data {
+    margin: 0 15px;
+}
+
+.book_button {
+    margin: 5px 10px !important;
+}
