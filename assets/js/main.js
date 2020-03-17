@@ -245,13 +245,17 @@ function bookSearch() {
 
                 $(addToLibrary).click(function() {
                     const url = "https://script.google.com/macros/s/AKfycbzASd3jjn5fASVi-zQmDu8htgu-OO2Y-H-29d1_ngPwBTJDIez_/exec"; // Library Sheet
-                    const bookID = $(event.target).data();
+                    const bookID = $(event.target).attr('data');
+                    $(event.target).addClass('disabled');
+                    $(event.target).text("Added to Library");
                     postBookToSheet(url, bookID);
                 });
 
-                $(addToLibrary).click(function() {
-                    const url = "https://script.google.com/macros/s/AKfycbwVrYRdHSRnb7G0i47eHapATpF9Oq0gK7puMNJw7_QjZOGqIzte/exec"; //
-                    const bookID = $(event.target).data();
+                $(addToWishlist).click(function() {
+                    const url = "https://script.google.com/macros/s/AKfycbwVrYRdHSRnb7G0i47eHapATpF9Oq0gK7puMNJw7_QjZOGqIzte/exec"; // Wishlist Sheet
+                    const bookID = $(event.target).attr('data');
+                    $(event.target).addClass('disabled');
+                    $(event.target).text("Added to Wishlist");
                     postBookToSheet(url, bookID);
                 });
 
