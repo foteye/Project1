@@ -49,20 +49,18 @@
         <div id="bookSearch">
             <div>
                 <div class=>
-                    <h1>BOOK FINDER</h1>
+                    <h1>Search for a Book</h1>
                     <!-- user input -->
-                    <input id="search" placeholder="Title or Author" />
-                    <br /><br />
-                    <!-- user submit -->
-                    <button id="searchBtn">
-                        SEARCH
-                    </button>
-                    <button id="return"> RETURN TO HOME</button>
-                    <button id="clear"> CLEAR SEARCH</button>
+                    <div class="ui action input">
+                        <input id="search" placeholder="Title or Author" />
+                        <!-- user submit -->
+                        <button id="searchBtn" class="ui button small">Search</button>
+                        <button id="return" class="ui button small">Home</button>
+                  </div>
                 </div>
                 <div>
                     <!-- display results -->
-                    <div id="results"></div>
+                    <div id="results" class="ui internally celled grid"></div>
                 </div>
             </div>
         </div>

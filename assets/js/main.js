@@ -1,9 +1,10 @@
 /*
     Main Functions
 */
-const bookSearchPage = $("#bookSearch");
-bookSearchPage.hide();
-let username = "";
+const bookSearchPage = $("#bookSearch")
+bookSearchPage.hide()
+let username = ""
+$('#modal_login').modal('show');
 
 function successfulLogin(username) {
   // TODO: lookup user
@@ -101,15 +102,19 @@ function register() {
     Event Handlers
 */
 
-$("#login").click(function() {
-  if ($("#username").val() && $("#password").val()) {
-    login();
-    getWishlist(wishlistID);
-    getLibrary(libraryID);
-  } else {
-    // TODO: Flesh out error message on page
-    console.log("error");
-  }
+$("#searchBtn").click(function(){
+    bookSearch();
+});
+
+$("#login").click(function () {
+    if ($("#username").val() && $("#password").val()) {
+        login();
+        getWishlist(wishlistID);
+        getLibrary(libraryID)
+    } else {
+        // TODO: Flesh out error message on page
+        console.log('error');
+    }
 });
 
 $("#register").click(function() {
@@ -170,71 +175,109 @@ function hash(string) {
   return hash;
 }
 
-$("#modal_login").modal("show");
+// Posts a book ID to either a wishlist URL or a library URL
+function postBookToSheet(url, bookID){
+    $.ajax({
+        url: url,
+        data: {
+            "Book_ID" : bookID, 
+            "User" : username
+        },
+        method: "POST",
+        success: function (data) {
+            console.log("Success", data);
+        },
+        error: function(error){
+            console.log("Error:", error);
+        }
+    });
+}
 
 //BOOK SEARCH FUNCTIONS//
 function bookSearch() {
-  // store user input
-  var search = document.getElementById("search").value;
-  // clear any previous data
-  document.getElementById("results").innerHTML = "";
+    var search = $("#search").val();
+    $("#results").empty();
 
-  // make a data request
-  $.ajax({
-    // url for database
-    url: "https://www.googleapis.com/books/v1/volumes?q=" + search,
-    dataType: "json",
-    type: "GET",
-    // on success, do this
-    success: function(data) {
-      // display data being passed through
-      console.log(data);
+    $.ajax({
+        url: "https://www.googleapis.com/books/v1/volumes",
+        data : {
+            q : search
+        },
+        dataType: "json",
+        type: "GET",
+        // on success, do this
+        success: function (data) {
+            // display data being passed through
+            console.log(data);
 
-      // loop through data in data.items
-      for (var i = 0; i < data.items.length; i++) {
-        // store current books volume info
-        var jdata = data.items[i].volumeInfo;
+            // loop through data in data.items
+            for (var i = 0; i < data.items.length; i++) {
+                // store current books volume info
+                var jdata = data.items[i].volumeInfo;
 
-        // create elements
-        var newColSm4 = document.createElement("div");
-        var newImg = document.createElement("img");
-        var newH2 = document.createElement("h2");
-        var newH3 = document.createElement("h3");
-        var newH4 = document.createElement("h4");
-        let newLibrary = document.createElement("button");
-        let newWishItem = document.createElement("button");
-        //Shash: I've changed 'var' to 'let' for the button elements//
+                // create elements
+                var bookContainer = $("<div></div>");
+                var bookThumb = $("<img></img>");
+                var bookData = $("<div></div>");
+                var bookTitle = $("<h2></h2>");
+                var bookAuthor = $("<h3></h3>");
+                var bookYear = $("<h4></h4>");
+                var buttonDiv = $("<div></div>");
+                let addToLibrary = $("<button></button>");
+                let addToWishlist = $("<button></button>");
+                
+                // add classes to elements
+                $(bookContainer).addClass("row book_item");
+                $(bookData).addClass("book_data eight wide column");
+                $(bookThumb).addClass("three wide column");
+                $(buttonDiv).addClass("three wide column");
+                $(addToLibrary).addClass('medium ui button book_button');
+                $(addToWishlist).addClass('medium ui button book_button');
 
-        // add classes to elements
-        newColSm4.className = "col-sm-12 col-md-8 col-md-offset-2 item";
-        // newLibrary.className = "btn btn-primary";
-        // newWishItem.className = "btn btn-primary";
+                // add text to tags
+                $(bookTitle).text(jdata.title);
+                $(addToLibrary).text("Add to Library");
+                $(addToWishlist).text("Add to Wishlist");
 
-        // add text to tags
-        newH2.innerText = jdata.title;
-        newLibrary.innerText = "Add to Library";
-        newWishItem.innerText = "Add to Wishlist";
+                // add href and data
+                $(addToLibrary).attr("href", jdata.infoLink);
+                $(addToLibrary).attr("data", data.items[i].id);
+                $(addToWishlist).attr("href", jdata.infoLink);
+                $(addToWishlist).attr("data", data.items[i].id);
 
-        // add attributes (Shash: I've commented out the HREF attributes so the buttons won't change the page)
-        // newLibrary.href = jdata.infoLink;
-        newLibrary.setAttribute("data", data.items[i].id);
-        // newWishItem.href = jdata.infoLink;
-        newWishItem.setAttribute("data", data.items[i].id);
+                $(addToLibrary).click(function() {
+                    const url = "https://script.google.com/macros/s/AKfycbzASd3jjn5fASVi-zQmDu8htgu-OO2Y-H-29d1_ngPwBTJDIez_/exec"; // Library Sheet
+                    const bookID = $(event.target).attr('data');
+                    $(event.target).addClass('disabled');
+                    $(event.target).text("Added to Library");
+                    postBookToSheet(url, bookID);
+                });
 
-        //SHASH: I've added event listeners to the wishlist and library buttons to retreive the 'book ID' (which was set to each button on lines 49 and 51. The book ID will be used to retreive data for the wishlist/library display page//
-        //TO DO: link to user login to add user name to spreadsheet when user clicks on button
-        newLibrary.addEventListener("click", function addToLibrary() {
-          let bookID = newLibrary.getAttribute("data");
-          //add book ID to library spreadsheet
-          const libURL =
-            "https://script.google.com/macros/s/AKfycbzASd3jjn5fASVi-zQmDu8htgu-OO2Y-H-29d1_ngPwBTJDIez_/exec";
+                $(addToWishlist).click(function() {
+                    const url = "https://script.google.com/macros/s/AKfycbwVrYRdHSRnb7G0i47eHapATpF9Oq0gK7puMNJw7_QjZOGqIzte/exec"; // Wishlist Sheet
+                    const bookID = $(event.target).attr('data');
+                    $(event.target).addClass('disabled');
+                    $(event.target).text("Added to Wishlist");
+                    postBookToSheet(url, bookID);
+                });
 
-          $.ajax({
-            url: libURL,
-            data: "Book_ID=" + bookID + "&User=" + username, //TO DO: After we link everything together, need to add USER NAME to data to "post"
-            method: "POST",
-            success: function(data) {
-              console.log(data);
+
+                $(bookThumb).attr('src', (jdata.imageLinks) ? jdata.imageLinks.thumbnail : "./assets/img/nobook.jpg");
+                $(bookYear).text((jdata.publishedDate) ? jdata.publishedDate : "Year of Publication Missing");
+                $(bookAuthor).text((jdata.authors) ? jdata.authors[0] : "Author Missing");
+
+                // add tags to document
+                bookContainer.append(bookThumb);
+                bookData.append(bookTitle);
+                bookData.append(bookAuthor);
+                bookData.append(bookYear);
+                bookContainer.append(bookData);
+                buttonDiv.append(addToLibrary);
+                buttonDiv.append(addToWishlist);
+                bookContainer.append(buttonDiv);
+
+                // add results to the screen
+                $("#results").append(bookContainer);
             }
           });
         });
@@ -292,10 +335,6 @@ function bookSearch() {
   });
 }
 
-// add event to element with id="button"
-var searchBtn = document.getElementById("searchBtn");
-searchBtn.addEventListener("click", bookSearch, false);
-
 //Add wishlist and library items:
 //Store wishlist items specific to user in array
 let wishlistID = [];
@@ -340,44 +379,45 @@ function getLibrary(libraryID) {
 
 //append wishlist items from array to HTML:
 function appendWishlist(wishlistID) {
-  for (let i = 0; i < wishlistID.length; i++) {
-    let url = "https://www.googleapis.com/books/v1/volumes?q=" + wishlistID[i];
-    console.log(wishlistID[i]);
-    $.ajax({
-      url: url,
-      method: "GET"
-    }).then(function(response) {
-      let wishlistSection = $("#wishlistItems");
-      let bookList = $("<ul>").text(
-        response.items[0].volumeInfo.title +
-          "-" +
-          response.items[0].volumeInfo.authors[0]
-      );
-      let br = $("<br>");
-      let removeBtn = $("<button id='remove'>Remove book?</button>");
-      wishlistSection.append(bookList, br, removeBtn);
-    });
-  }
+    for (let i = 0; i < wishlistID.length; i++) {
+        let url = "https://www.googleapis.com/books/v1/volumes?q=" + wishlistID[i]
+        console.log(wishlistID[i])
+        $.ajax({
+            url: url,
+            method: "GET",
+            success: function(data){
+                console.log("Success", data);
+            },
+            error: function(error){
+                console.log("Error", error);
+            }
+        }).then(function (response) {
+            let wishlistSection = $("#wishlistItems")
+            let bookList = $("<ul>").text(response.items[0].volumeInfo.title + "-" + response.items[0].volumeInfo.authors[0])
+            let br = $("<br>")
+            wishlistSection.append(bookList, br)
+        })
+    }
 }
 
 //append library items from array to HTML:
 function appendLibrary(libraryID) {
-  for (let j = 0; j < libraryID.length; j++) {
-    let liburl =
-      "https://www.googleapis.com/books/v1/volumes?q=" + libraryID[j];
-    $.ajax({
-      url: liburl,
-      method: "GET"
-    }).then(function(response) {
-      let librarySection = $("#libraryItems");
-      let libBookList = $("<ul>").text(
-        response.items[0].volumeInfo.title +
-          "-" +
-          response.items[0].volumeInfo.authors[0]
-      );
-      let br = $("<br>");
-      let removeBtn = $("<button id='remove'>Remove book?</button>");
-      librarySection.append(libBookList, br, removeBtn);
-    });
-  }
+    for (let j = 0; j < libraryID.length; j++) {
+        let liburl = "https://www.googleapis.com/books/v1/volumes?q=" + libraryID[j]
+        $.ajax({
+            url: liburl,
+            method: "GET",
+            success: function(data){
+                console.log("Success", data);
+            },
+            error: function(error){
+                console.log("Error", error);
+            }
+        }).then(function (response) {
+            let librarySection = $("#libraryItems")
+            let libBookList = $("<ul>").text(response.items[0].volumeInfo.title + "-" + response.items[0].volumeInfo.authors[0]);
+            let br = $("<br>")
+            librarySection.append(libBookList, br)
+        })
+    }
 }
