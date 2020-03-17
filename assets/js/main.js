@@ -1,10 +1,13 @@
 /*
     Main Functions
 */
+const bookSearchPage = $("#bookSearch")
+bookSearchPage.hide()
+let username = ""
 
 function successfulLogin(username) {
     // TODO: lookup user
-    $("#user_given_name").text('Foti'); // TODO: Remove hardcode
+    $("#user_given_name").text(username); // TODO: Remove hardcode
 
 }
 
@@ -15,6 +18,9 @@ function login() {
     var retrievedPWHash = '3149054'; //foti // TODO: Retrieve password hash from google sheet with username
     var inputPW = $("#password").val();
     var inputPWHash = hash(inputPW);
+    username = inputUserName
+    successfulLogin(username)
+
 
     // if (inputPWHash == retrievedPWHash) {
     //     $("#username").val('');
@@ -57,7 +63,7 @@ function login() {
 
 }
 
-// TODO: Shash validate and save the login details to sheet (UPDATE FROM SHASH: I have added function to post data to spreadsheet, commented out variables below as not required with the added function?)
+// TODO: Shash validate and save the login details to sheet (UPDATE FROM SHASH: I have added function to post data to spreadsheet)
 function register() {
 
     //Validation goes here, pull out variables
@@ -104,6 +110,8 @@ function register() {
 $("#login").click(function () {
     if ($("#username").val() && $("#password").val()) {
         login();
+        getWishlist(wishlistID);
+        getLibrary(libraryID)
     } else {
         // TODO: Flesh out error message on page
         console.log('error');
@@ -125,6 +133,22 @@ $("#complete").click(function (event) {
     }
 });
 
+$("#add_book").click(function () {
+    $("#userLists").hide()
+    bookSearchPage.show()
+})
+
+$("#return").click(function () {
+    let wishlistID = []
+    let libraryID = []
+    $("#wishlistItems").empty()
+    $("#libraryItems").empty()
+    getWishlist(wishlistID)
+    getLibrary(libraryID)
+    bookSearchPage.hide()
+    $("#userLists").show()
+})
+
 /*
     Util Functions
 */
@@ -144,3 +168,204 @@ function hash(string) {
 }
 
 $('#modal_login').modal('show');
+
+
+//BOOK SEARCH FUNCTIONS//
+function bookSearch() {
+    // store user input
+    var search = document.getElementById("search").value;
+    // clear any previous data
+    document.getElementById("results").innerHTML = "";
+
+    // make a data request
+    $.ajax({
+        // url for database
+        url: "https://www.googleapis.com/books/v1/volumes?q=" + search,
+        dataType: "json",
+        type: "GET",
+        // on success, do this
+        success: function (data) {
+            // display data being passed through
+            console.log(data);
+
+            // loop through data in data.items
+            for (var i = 0; i < data.items.length; i++) {
+                // store current books volume info
+                var jdata = data.items[i].volumeInfo;
+
+                // create elements
+                var newColSm4 = document.createElement("div");
+                var newImg = document.createElement("img");
+                var newH2 = document.createElement("h2");
+                var newH3 = document.createElement("h3");
+                var newH4 = document.createElement("h4");
+                let newLibrary = document.createElement("button");
+                let newWishItem = document.createElement("button");
+                //Shash: I've changed 'var' to 'let' for the button elements//
+
+                // add classes to elements
+                newColSm4.className = "col-sm-12 col-md-8 col-md-offset-2 item";
+                // newLibrary.className = "btn btn-primary";
+                // newWishItem.className = "btn btn-primary";
+
+                // add text to tags
+                newH2.innerText = jdata.title;
+                newLibrary.innerText = "Add to Library";
+                newWishItem.innerText = "Add to Wishlist";
+
+                // add attributes (Shash: I've commented out the HREF attributes so the buttons won't change the page)
+                // newLibrary.href = jdata.infoLink;
+                newLibrary.setAttribute("data", data.items[i].id);
+                // newWishItem.href = jdata.infoLink;
+                newWishItem.setAttribute("data", data.items[i].id);
+
+                //SHASH: I've added event listeners to the wishlist and library buttons to retreive the 'book ID' (which was set to each button on lines 49 and 51. The book ID will be used to retreive data for the wishlist/library display page//
+                //TO DO: link to user login to add user name to spreadsheet when user clicks on button 
+                newLibrary.addEventListener("click", function addToLibrary() {
+                    let bookID = newLibrary.getAttribute("data")
+                    //add book ID to library spreadsheet
+                    const libURL = "https://script.google.com/macros/s/AKfycbzASd3jjn5fASVi-zQmDu8htgu-OO2Y-H-29d1_ngPwBTJDIez_/exec"
+
+                    $.ajax({
+                        url: libURL,
+                        data: "Book_ID=" + bookID + "&User=" + username, //TO DO: After we link everything together, need to add USER NAME to data to "post"
+                        method: "POST",
+                        success: function (data) {
+                            console.log(data)
+                        }
+                    })
+                })
+
+                newWishItem.addEventListener("click", function addToWishlist() {
+                    let bookID = newWishItem.getAttribute("data")
+                    //add book ID to wishlist spreadsheet
+                    const wsURL = "https://script.google.com/macros/s/AKfycbwVrYRdHSRnb7G0i47eHapATpF9Oq0gK7puMNJw7_QjZOGqIzte/exec"
+
+                    $.ajax({
+                        url: wsURL,
+                        data: "Book_ID=" + bookID + "&User=" + username, //TO DO: Add USER NAME to data after everything is linked
+                        method: "POST",
+                        success: function (data) {
+                            console.log(data)
+                        }
+                    })
+                })
+
+                // create image if one exists
+                if (jdata.imageLinks) {
+                    newImg.src = jdata.imageLinks.thumbnail;
+                } else {
+                    newImg.src = "img/nobook.jpg";
+                }
+
+                // create publish date if one exists
+                if (jdata.publishedDate) {
+                    newH4.innerText = jdata.publishedDate;
+                } else {
+                    newH4.innerText = "no publish date found";
+                }
+
+                // create author if one exists
+                if (jdata.authors) {
+                    newH3.innerText = jdata.authors[0];
+                } else {
+                    newH3.innerText = "no author found";
+                }
+
+                // add tags to document
+                newColSm4.appendChild(newImg);
+                newColSm4.appendChild(newH2);
+                newColSm4.appendChild(newH3);
+                newColSm4.appendChild(newH4);
+                newColSm4.appendChild(newLibrary);
+                newColSm4.appendChild(newWishItem);
+
+                // add results to the screen
+                var results = document.getElementById("results");
+                results.appendChild(newColSm4);
+            }
+        }
+    });
+}
+
+// add event to element with id="button"
+var searchBtn = document.getElementById("searchBtn");
+searchBtn.addEventListener("click", bookSearch, false);
+
+
+
+//Add wishlist and library items:
+//Store wishlist items specific to user in array
+let wishlistID = []
+function getWishlist(wishlistID) {
+    const wishlistURL = "https://script.google.com/macros/s/AKfycbwVrYRdHSRnb7G0i47eHapATpF9Oq0gK7puMNJw7_QjZOGqIzte/exec"
+    $.ajax({
+        url: wishlistURL,
+        method: "GET"
+    }).then(function (wsResponse) {
+        if (wsResponse.length > 0) {
+            wsResponse.forEach(bookID => {
+
+                if (bookID[1] === username) {
+                    wishlistID.push(bookID[0])
+                }
+            });
+            console.log("wishlist=" + wishlistID)
+            appendWishlist(wishlistID)
+        }
+    })
+}
+//Store library items specific to user in array
+let libraryID = []
+function getLibrary(libraryID) {
+    const libraryURL = "https://script.google.com/macros/s/AKfycbzASd3jjn5fASVi-zQmDu8htgu-OO2Y-H-29d1_ngPwBTJDIez_/exec"
+    $.ajax({
+        url: libraryURL,
+        method: "GET"
+    }).then(function (libResponse) {
+        if (libResponse.length > 0) {
+            libResponse.forEach(bookID => {
+
+                if (bookID[1] === username) {
+                    libraryID.push(bookID[0])
+                }
+            });
+            console.log("library=" + libraryID)
+            appendLibrary(libraryID)
+        }
+    })
+}
+
+
+//append wishlist items from array to HTML:
+function appendWishlist(wishlistID) {
+    for (let i = 0; i < wishlistID.length; i++) {
+        let url = "https://www.googleapis.com/books/v1/volumes?q=" + wishlistID[i]
+        console.log(wishlistID[i])
+        $.ajax({
+            url: url,
+            method: "GET"
+        }).then(function (response) {
+            let wishlistSection = $("#wishlistItems")
+            let bookList = $("<ul>").text(response.items[0].volumeInfo.title + "-" + response.items[0].volumeInfo.authors[0])
+            let br = $("<br>")
+            wishlistSection.append(bookList, br)
+        })
+    }
+}
+
+//append library items from array to HTML:
+function appendLibrary(libraryID) {
+    for (let j = 0; j < libraryID.length; j++) {
+        let liburl = "https://www.googleapis.com/books/v1/volumes?q=" + libraryID[j]
+        $.ajax({
+            url: liburl,
+            method: "GET"
+        }).then(function (response) {
+            let librarySection = $("#libraryItems")
+            let libBookList = $("<ul>").text(response.items[0].volumeInfo.title + "-" + response.items[0].volumeInfo.authors[0]);
+            let br = $("<br>")
+            librarySection.append(libBookList, br)
+        })
+    }
+}
