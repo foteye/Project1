@@ -279,60 +279,8 @@ function bookSearch() {
                 // add results to the screen
                 $("#results").append(bookContainer);
             }
-          });
-        });
-
-        newWishItem.addEventListener("click", function addToWishlist() {
-          let bookID = newWishItem.getAttribute("data");
-          //add book ID to wishlist spreadsheet
-          const wsURL =
-            "https://script.google.com/macros/s/AKfycbwVrYRdHSRnb7G0i47eHapATpF9Oq0gK7puMNJw7_QjZOGqIzte/exec";
-
-          $.ajax({
-            url: wsURL,
-            data: "Book_ID=" + bookID + "&User=" + username, //TO DO: Add USER NAME to data after everything is linked
-            method: "POST",
-            success: function(data) {
-              console.log(data);
-            }
-          });
-        });
-
-        // create image if one exists
-        if (jdata.imageLinks) {
-          newImg.src = jdata.imageLinks.thumbnail;
-        } else {
-          newImg.src = "img/nobook.jpg";
         }
-
-        // create publish date if one exists
-        if (jdata.publishedDate) {
-          newH4.innerText = jdata.publishedDate;
-        } else {
-          newH4.innerText = "no publish date found";
-        }
-
-        // create author if one exists
-        if (jdata.authors) {
-          newH3.innerText = jdata.authors[0];
-        } else {
-          newH3.innerText = "no author found";
-        }
-
-        // add tags to document
-        newColSm4.appendChild(newImg);
-        newColSm4.appendChild(newH2);
-        newColSm4.appendChild(newH3);
-        newColSm4.appendChild(newH4);
-        newColSm4.appendChild(newLibrary);
-        newColSm4.appendChild(newWishItem);
-
-        // add results to the screen
-        var results = document.getElementById("results");
-        results.appendChild(newColSm4);
-      }
-    }
-  });
+    });
 }
 
 //Add wishlist and library items:
