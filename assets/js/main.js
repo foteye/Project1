@@ -3,104 +3,77 @@
 */
 const bookSearchPage = $("#bookSearch")
 bookSearchPage.hide()
-let username = ""
+let username = "" //username global variable to be used when posting data to google spreadsheets
 
-function successfulLogin(username) {
-    // TODO: lookup user
-    $("#user_given_name").text(username); // TODO: Remove hardcode
-
-}
 
 // Authenticates user based on a hash retrieved from a call to google sheets
-//(UPDATE FROM SHASH: added function to compare login input to 'user details spreadsheet')
 function login() {
     var inputUserName = $("#username").val();
-    var retrievedPWHash = '3149054'; //foti // TODO: Retrieve password hash from google sheet with username
     var inputPW = $("#password").val();
     var inputPWHash = hash(inputPW);
-    username = inputUserName
-    successfulLogin(username)
+    username = inputUserName //update global variable "username"
 
-
-    // if (inputPWHash == retrievedPWHash) {
-    //     $("#username").val('');
-    //     $("#password").val('');
-    //     $('#modal_login').modal('hide');
-    //     successfulLogin(inputUserName);
-    // } else {
-    //     // TODO: Flesh out error message on page
-    //     console.log("error");
-    // }
-
-    //Compare user login details current users
-    function checkUser(inputUserName, inputPW) {
-        const queryURL = "https://script.google.com/macros/s/AKfycbz8k7FlnUeb6MjCj7xS6P0boxvrR-kHu4c5MEAD45zY4Li8EZg/exec"
-
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).then(function (response) {
-            if (response.length > 0) {
-                response.forEach(element => {
-                    if (element[2] == inputUserName && element[3] == inputPW) {
-                        $("#username").val('');
-                        $("#password").val('');
-                        $('#modal_login').modal('hide');
-                        successfulLogin(inputUserName);
-                    }
-                    else {
-                        // TODO: Flesh out error message on page
-                        console.log("error");
-                    }
-                });
-
-            }
-        })
-    }
-    checkUser(inputUserName, inputPW)
-    return true
-
-
+    checkUser(inputUserName, inputPWHash)
 }
+//Compare user login details current users
+function checkUser(inputUserName, inputPWHash) {
+    const queryURL = "https://script.google.com/macros/s/AKfycbz8k7FlnUeb6MjCj7xS6P0boxvrR-kHu4c5MEAD45zY4Li8EZg/exec"
 
-// TODO: Shash validate and save the login details to sheet (UPDATE FROM SHASH: I have added function to post data to spreadsheet)
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (response) {
+        var retrievedPWHash = ""
+        if (response.length > 0) {
+            for (var element of response) {
+                if (element[2] == inputUserName) {
+                    retrievedPWHash = element[3];
+                    break;
+                };
+            }
+        }
+        if (retrievedPWHash == inputPWHash) {
+            $("#username").val('');
+            $("#password").val('');
+            $('#modal_login').modal('hide');
+
+        }
+        //error alerting user entered details are not in system 
+        else { $('#login_error').modal('show') }
+    })
+}
 function register() {
 
     //Validation goes here, pull out variables
-    // var firstname = $("#reg_firstname").val();
-    // var surname = $("#reg_surname").val();
-    // var username = $("#reg_username").val();
-    // var password = $("#reg_password").val();
-    // var conf_password = $("#reg_conf_password").val();
+    var firstname = $("#reg_firstname").val();
+    var surname = $("#reg_surname").val();
+    var username = $("#reg_username").val();
+    var password = $("#reg_password").val();
+    var passwordHash = hash(password)
+    var conf_password = $("#reg_conf_password").val();
 
-    //Update user detail spreadsheet:
-    var input = $('form#registration_form :input').serialize()
-    var userDetails = input
-    console.log(userDetails)
-    const URL = "https://script.google.com/macros/s/AKfycbz8k7FlnUeb6MjCj7xS6P0boxvrR-kHu4c5MEAD45zY4Li8EZg/exec"
+    if (password == conf_password) {
+        //Update user detail spreadsheet:
+        var input = "First_Name=" + firstname + "&Surname=" + surname + "&Username=" + username + "&Password=" + passwordHash
+        var userDetails = input
+        const URL = "https://script.google.com/macros/s/AKfycbz8k7FlnUeb6MjCj7xS6P0boxvrR-kHu4c5MEAD45zY4Li8EZg/exec"
 
-    $.ajax({
-        url: URL,
-        data: userDetails,//bookID
-        method: "POST",
-        success: function (data) {
-            console.log(data)
-        }
-    })
-
-    var savedToSheets = true; // should be success of saving function
-
-    if (!savedToSheets) {
-        return false;
+        $.ajax({
+            url: URL,
+            data: userDetails,
+            method: "POST",
+            success: function (data) {
+                console.log(data)
+            }
+        })
+        $("#reg_firstname").val('');
+        $("#reg_surname").val('');
+        $("#reg_username").val('');
+        $("#reg_password").val('');
+        $("#reg_conf_password").val('');
     }
-
-    $("#reg_firstname").val('');
-    $("#reg_surname").val('');
-    $("#reg_username").val('');
-    $("#reg_password").val('');
-    $("#reg_conf_password").val('');
-    return true;
-
+    //Error alerting user passwords not matching
+    else { $('#error-password_match').modal('show') }
 }
 
 /*
@@ -112,9 +85,6 @@ $("#login").click(function () {
         login();
         getWishlist(wishlistID);
         getLibrary(libraryID)
-    } else {
-        // TODO: Flesh out error message on page
-        console.log('error');
     }
 });
 
@@ -147,6 +117,19 @@ $("#return").click(function () {
     getLibrary(libraryID)
     bookSearchPage.hide()
     $("#userLists").show()
+})
+
+$("#error-ok").click(function () {
+    $("#username").val("")
+    $("#password").val("")
+    $('#modal_login').modal('show');
+
+})
+
+$("#pwError-ok").click(function () {
+    $('#modal_register').modal('show')
+    $("#reg_password").val('');
+    $("#reg_conf_password").val('')
 })
 
 /*
@@ -291,8 +274,6 @@ function bookSearch() {
 // add event to element with id="button"
 var searchBtn = document.getElementById("searchBtn");
 searchBtn.addEventListener("click", bookSearch, false);
-
-
 
 //Add wishlist and library items:
 //Store wishlist items specific to user in array
