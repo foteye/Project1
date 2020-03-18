@@ -88,16 +88,18 @@
                 Open Book API Project Registration
             </div>
             <form id="registration_form">
-                <!-- <div class="ui one column grid login_area centered">
+                <div class="ui one column grid login_area centered">
                     <div class="row">
                         <span class='login_label'>First Name:</span><input class='ui input login_input'
                             id='reg_firstname' name="First-Name">
                     </div>
                     <div class="row">
-                        <span class='login_label'>Last Name:</span><input class='ui input login_input' id='reg_surname' name="Surname">
+                        <span class='login_label'>Last Name:</span><input class='ui input login_input' id='reg_surname'
+                            name="Surname">
                     </div>
                     <div class="row">
-                        <span class='login_label'>Username:</span><input class='ui input login_input' id='reg_username' name="Username">
+                        <span class='login_label'>Username:</span><input class='ui input login_input' id='reg_username'
+                            name="Username">
                     </div>
                     <div class="row">
                         <span class='login_label'>Password:</span><input class='ui input login_input' type='password'
@@ -110,31 +112,33 @@
                 </div>
                 <div class="actions">
                     <div class="ui button" id='complete'>Complete Registration</div>
-                </div> -->
-
-                <!--CHANGES FROM SHASH: changed layout to <form> structure as the "POST" function wasn't able to access data in above format-->
-                <br>
-                <span class='login_label'>First Name:</span><input class='ui input login_input' id='reg_firstname'
-                    name="First_Name">
-                <br><br>
-                <span class='login_label'>Last Name:</span><input class='ui input login_input' id='reg_surname'
-                    name="Surname">
-                <br><br>
-                <span class='login_label'>Username:</span><input class='ui input login_input' id='reg_username'
-                    name="Username">
-                <br><br>
-                <span class='login_label'>Password:</span><input class='ui input login_input' type='password'
-                    id='reg_password' name="Password">
-                <br><br>
-                <span class='login_label'>Confirm:</span><input class='ui input login_input' type='password'
-                    id='reg_conf_password'>
-                <br><br>
-                <div class="actions">
-                    <div class="ui button" id='complete'>Complete Registration</div>
                 </div>
             </form>
 
+
+            <!--Error modals-->
+            <div class="ui modal" id='login_error'>
+                <div class="header">Error</div>
+                <div class="content">
+                    <p>Username or Password don't match our records. Please try again. </p>
+                </div>
+                <div class="actions">
+                    <div class="ui approve button" id='error-ok'>Ok</div>
+                </div>
+            </div>
+            <div class="ui modal" id='error-password_match'>
+                <div class="header">Error</div>
+                <div class="content">
+                    <p>Passwords don't match. Please try again. </p>
+                </div>
+                <div class="actions">
+                    <div class="ui approve button" id='pwError-ok'>Ok</div>
+                </div>
+            </div>
+
         </div>
+
+    </div>
 </body>
 </body>
 
