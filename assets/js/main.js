@@ -275,7 +275,7 @@ function bookSearch() {
           postBookToSheet(url, bookID);
         });
 
-        $(bookThumb).attr('src', (jdata.imageLinks) ? jdata.imageLinks.thumbnail : "./assets/img/nobook.jpg");
+        $(bookThumb).attr('src', (jdata.imageLinks) ? jdata.imageLinks.thumbnail : "./assets/images/nobook.jpg");
         $(bookYear).text((jdata.publishedDate) ? jdata.publishedDate : "Year of Publication Missing");
         $(bookAuthor).text((jdata.authors) ? jdata.authors[0] : "Author Missing");
 
