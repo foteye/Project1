@@ -236,6 +236,7 @@ function bookSearch() {
         var bookTitle = $("<h2></h2>");
         var bookAuthor = $("<h3></h3>");
         var bookYear = $("<h4></h4>");
+        var bookBlurb = $("<p>")
         var buttonDiv = $("<div></div>");
         let addToLibrary = $("<button></button>");
         let addToWishlist = $("<button></button>");
@@ -278,12 +279,14 @@ function bookSearch() {
         $(bookThumb).attr('src', (jdata.imageLinks) ? jdata.imageLinks.thumbnail : "./assets/img/nobook.jpg");
         $(bookYear).text((jdata.publishedDate) ? jdata.publishedDate : "Year of Publication Missing");
         $(bookAuthor).text((jdata.authors) ? jdata.authors[0] : "Author Missing");
+        $(bookBlurb).text(jdata.description)
 
         // add tags to document
         bookContainer.append(bookThumb);
         bookData.append(bookTitle);
         bookData.append(bookAuthor);
         bookData.append(bookYear);
+        bookData.append(bookBlurb)
         bookContainer.append(bookData);
         buttonDiv.append(addToLibrary);
         buttonDiv.append(addToWishlist);
@@ -392,3 +395,52 @@ function appendLibrary(libraryID) {
     })
   }
 }
+
+// $("#findmatch").click(function () {
+//   findMatch()
+//   $("#matches").modal('show')
+// })
+
+// $("#match-ok").click(function () { $("#matches").modal("hide") })
+// //find matches from wishlist:
+// let matchedBooks = []
+// let matchedUsers = []
+// function findMatch() {
+//   for (let m = 0; m < wishlistID.length; m++) {
+//     function matchLibrary() {
+//       const libraryURL =
+//         "https://script.google.com/macros/s/AKfycbzASd3jjn5fASVi-zQmDu8htgu-OO2Y-H-29d1_ngPwBTJDIez_/exec";
+//       $.ajax({
+//         url: libraryURL,
+//         method: "GET"
+//       }).then(function (response) {
+//         if (response.length > 0) {
+//           response.forEach(bookID => {
+//             if (bookID[0] === wishlistID[m]) {
+//               matchedBooks.push(bookID[0]);
+//               matchedUsers.push(bookID[1])
+//             }
+//           });
+//           console.log("matches=" + matchedBooks + "users=" + matchedUsers);
+//         }
+//       });
+//     }
+//     matchLibrary()
+//     displayMatches()
+//   }
+// }
+// //display matched books: 
+// function displayMatches() {
+//   for (var b = 0; b < matchedBooks.length; b++) {
+//     $("#numberMatches").text(matchedBooks.length)
+//     var matchList = $("#listMatches")
+//     var matchItem = $("<li>").text(matchedBooks[b] + "-" + matchedUsers)
+//     matchList.append(matchItem)
+//   }
+// }
+
+
+
+
+
+
