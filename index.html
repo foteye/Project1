@@ -37,14 +37,15 @@
                     <!--Add user specific library-->
                 </ul>
             </div>
+            <!--Buttons ('Add a book' and 'Find a match'-->
             <div class="sixteen wide column middle aligned centered ui grid">
                 <div class='row'>
-                    <a class="ui basic button fluid" tabindex="0" id='add_book'>
+                    <a class="fluid ui button" tabindex="0" id='add_book'>
                         Add a Book
                     </a>
                 </div>
                 <div class='row'>
-                    <a class="ui basic button fluid" tabindex="0" id="#findmatch">
+                    <a class="fluid ui button" tabindex="0" id="findmatch">
                         Find a match
                     </a>
                 </div>
@@ -64,26 +65,45 @@
                         <button id="clear" class="ui button small">Clear Search</button>
                     </div>
                 </div>
-                <div>
-                    <!-- display results -->
-                    <div id="results" class="ui internally celled grid"></div>
+            </div>
+            <div>
+                <!-- display results -->
+                <div id="results" class="ui internally celled grid"></div>
+            </div>
+        </div>
+        <!--Find match page-->
+        <div class="ui two column centered grid" id='matches'>
+            <div class="column">
+                <div class="ui segments">
+                    <div class="ui segment">
+                        <h2 class="header">Your wishlist matches</h2>
+                    </div>
+                    <div class="ui secondary segment">
+                        <div>
+                            <h3>You have <span id="numberMatches"></span> matches.</h3>
+                            <ul id="listMatches">
+                                <!--To display list of matches-->
+                            </ul>
+                        </div>
+                        <button class="ui button" id='match-ok'>Ok</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <!--Find match-->
-        <!-- <div class="ui modal" id='matches'>
-            <div class="header">Your wishlist matches</div>
-            <div class="content">
-                <p>You have <span id="numberMatches"></span>matches.</p>
 
-                <ul id="listMatches">
+        <!--Loading page-->
+        <div id='loading'>
+            <img class="ui centered medium image" src="assets/images/loading-bars.gif">
+        </div>
 
-                </ul>
-            </div>
-            <div class="actions">
-                <div class="ui approve button" id='match-ok'>Ok</div>
-            </div>
-        </div> -->
+        <!--Button to display user login form-->
+        <div class='row' id="user-login-button">
+            <a class="fluid ui button" tabindex="0" id='login-button'>
+                User login
+            </a>
+        </div>
+
+        <!--Modals:-->
         <!--Login Modal-->
         <div class="ui modal" id='modal_login'>
             <div class="header">
@@ -158,9 +178,7 @@
                     <div class="ui approve button" id='pwError-ok'>Ok</div>
                 </div>
             </div>
-
         </div>
-
     </div>
 </body>
 </body>
