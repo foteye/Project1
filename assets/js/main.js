@@ -132,17 +132,22 @@ $("#login").click(function() {
 //Open registration form
 $("#register").click(function() {
   $("#modal_login").modal("hide");
-  $("#modal_register").modal("show");
+  $("#modal_register").modal("show");  
+  
 });
 
 //Complete registration
 $("#complete").click(function(event) {
   event.preventDefault();
-  if (register()) {
-    $("#modal_register").modal("hide");
-    $("#modal_login").modal("show");
+  if ($("#reg_firstname").val() && $("#reg_surname").val() && $("#reg_username").val() && $("#reg_password").val() && $("#reg_conf_password").val()){
+    if (register()) {
+      $("#modal_register").modal("hide");
+      $("#modal_login").modal("show");
+    } else {
+      console.log("error");
+    }
   } else {
-    console.log("error");
+    $("#register_error").show();
   }
 });
 
@@ -365,7 +370,13 @@ function getWishlist(wishlistID) {
     "https://script.google.com/macros/s/AKfycbwVrYRdHSRnb7G0i47eHapATpF9Oq0gK7puMNJw7_QjZOGqIzte/exec";
   $.ajax({
     url: wishlistURL,
-    method: "GET"
+    method: "GET",
+    success: function (data){
+      console.log(data);
+    }, 
+    error: function (error){
+      console.log(error);
+    } 
   }).then(function(wsResponse) {
     if (wsResponse.length > 0) {
       wsResponse.forEach(bookID => {
@@ -385,7 +396,13 @@ function getLibrary(libraryID) {
     "https://script.google.com/macros/s/AKfycbzASd3jjn5fASVi-zQmDu8htgu-OO2Y-H-29d1_ngPwBTJDIez_/exec";
   $.ajax({
     url: libraryURL,
-    method: "GET"
+    method: "GET",
+    success: function (data){
+      console.log(data);
+    }, 
+    error: function (error){
+      console.log(error);
+    }
   }).then(function(libResponse) {
     if (libResponse.length > 0) {
       libResponse.forEach(bookID => {
