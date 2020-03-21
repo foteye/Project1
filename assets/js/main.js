@@ -151,6 +151,12 @@ $("#complete").click(function(event) {
   }
 });
 
+//Go back to login modal from registration modal
+$("#goBack").click(function () {
+  $("modal_register").modal("hide");
+  $("#modal_login").modal("show")
+})
+
 //Open book search page
 $("#searchBtn").click(function() {
   bookSearch();
@@ -199,12 +205,14 @@ $("#pwError-ok").click(function() {
 });
 
 //Find matches with other users
-$("#findmatch").click(function() {
-  $("#listMatches").empty();
-  $("#loading").show();
-  $("#userLists").hide();
-  findMatch();
-});
+$("#findmatch").click(function () {
+  $("#listMatches").empty()
+  $("#loading").show()
+  $("#userLists").hide()
+  console.log("this is wishlist ID", wishlistID)
+  findMatch(wishlistID)
+})
+
 
 //Close book matches display page
 $("#match-ok").click(function() {
@@ -418,90 +426,90 @@ function getLibrary(libraryID) {
 
 //append wishlist items from array to HTML:
 function appendWishlist(wishlistID) {
-  for (let i = 0; i < wishlistID.length; i++) {
-    let url = "https://www.googleapis.com/books/v1/volumes?q=" + wishlistID[i];
-    console.log(wishlistID[i]);
-    $.ajax({
-      url: url,
-      method: "GET",
-      success: function(data) {
-        console.log("Success", data);
-      },
-      error: function(error) {
-        console.log("Error", error);
+  if (wishlistID.length > 0) {
+    for (let i = 0; i < wishlistID.length; i++) {
+      let url = "https://www.googleapis.com/books/v1/volumes?q=" + wishlistID[i]
+      console.log(wishlistID[i])
+      $.ajax({
+        url: url,
+        method: "GET",
+        success: function (data) {
+          console.log("Success", data);
+        },
+        error: function (error) {
+          console.log("Error", error);
+        }
+      }).then(function (response) {
+        let wishlistSection = $("#wishlistItems")
+        let bookListing = $("<a>").attr("class", "item")
+        let listingTitle = $("<h4>").attr("class", "ui medium header").text(response.items[0].volumeInfo.title)
+        let listingAuthor = $("<h5>").attr("class", "ui medium").text(response.items[0].volumeInfo.authors)
+        let listingBlurb = $("<p>").text(response.items[0].volumeInfo.description)
+        wishlistSection.append(bookListing)
+        bookListing.append(listingTitle, listingAuthor, listingBlurb)
+      })
+      //show user lists after data and elements have loaded.
+      if (i == wishlistID.length - 1) {
+        $("#loading").hide()
+        $("#userLists").show()
       }
-    }).then(function(response) {
-      let wishlistSection = $("#wishlistItems");
-      let bookListing = $("<a>").attr("class", "item");
-      let listingTitle = $("<h4>")
-        .attr("class", "ui medium header")
-        .text(response.items[0].volumeInfo.title);
-      let listingAuthor = $("<h5>")
-        .attr("class", "ui medium")
-        .text(response.items[0].volumeInfo.authors);
-      let listingBlurb = $("<p>").text(
-        response.items[0].volumeInfo.description
-      );
-      wishlistSection.append(bookListing);
-      bookListing.append(listingTitle, listingAuthor, listingBlurb);
-    });
-    //show user lists after data and elements have loaded.
-    if (i == wishlistID.length - 1) {
-      $("#loading").hide();
-      $("#userLists").show();
     }
+  }
+  else {
+    $("#loading").hide()
+    $("#userLists").show()
   }
 }
 
 //append library items from array to HTML:
 function appendLibrary(libraryID) {
-  for (let j = 0; j < libraryID.length; j++) {
-    let liburl =
-      "https://www.googleapis.com/books/v1/volumes?q=" + libraryID[j];
-    $.ajax({
-      url: liburl,
-      method: "GET",
-      success: function(data) {
-        console.log("Success", data);
-      },
-      error: function(error) {
-        console.log("Error", error);
+  if (libraryID.length > 0) {
+    for (let j = 0; j < libraryID.length; j++) {
+      let liburl = "https://www.googleapis.com/books/v1/volumes?q=" + libraryID[j]
+      $.ajax({
+        url: liburl,
+        method: "GET",
+        success: function (data) {
+          console.log("Success", data);
+        },
+        error: function (error) {
+          console.log("Error", error);
+        }
+      }).then(function (response) {
+        let librarySection = $("#libraryItems")
+        let bookListing = $("<a>").attr("class", "item")
+        let listingTitle = $("<h4>").attr("class", "ui medium header").text(response.items[0].volumeInfo.title)
+        let listingAuthor = $("<h5>").attr("class", "ui medium").text(response.items[0].volumeInfo.authors)
+        let listingBlurb = $("<p>").text(response.items[0].volumeInfo.description)
+        librarySection.append(bookListing)
+        bookListing.append(listingTitle, listingAuthor, listingBlurb)
+      })
+      //show user lists after data and elements have loaded.
+      if (j == libraryID.length - 1) {
+        $("#loading").hide()
+        $("#userLists").show()
       }
-    }).then(function(response) {
-      let librarySection = $("#libraryItems");
-      let bookListing = $("<a>").attr("class", "item");
-      let listingTitle = $("<h4>")
-        .attr("class", "ui medium header")
-        .text(response.items[0].volumeInfo.title);
-      let listingAuthor = $("<h5>")
-        .attr("class", "ui medium")
-        .text(response.items[0].volumeInfo.authors);
-      let listingBlurb = $("<p>").text(
-        response.items[0].volumeInfo.description
-      );
-      librarySection.append(bookListing);
-      bookListing.append(listingTitle, listingAuthor, listingBlurb);
-    });
-    //show user lists after data and elements have loaded.
-    if (j == libraryID.length - 1) {
-      $("#loading").hide();
-      $("#userLists").show();
     }
+  }
+  else {
+    $("#loading").hide()
+    $("#userLists").show()
   }
 }
 
 //find matches from wishlist:
-
-function findMatch() {
-  let matchedBooks = [];
-  let matchedUsers = [];
+function findMatch(wishlistID) {
+  let matchedBooks = []
+  let matchedUsers = []
   for (let m = 0; m < wishlistID.length; m++) {
     const libraryURL =
       "https://script.google.com/macros/s/AKfycbzASd3jjn5fASVi-zQmDu8htgu-OO2Y-H-29d1_ngPwBTJDIez_/exec";
     $.ajax({
       url: libraryURL,
-      method: "GET"
-    }).then(function(response) {
+      method: "GET",
+      success: function (data) { console.log("success", data) },
+      error: function (error) { console.log("error", error) },
+    }).then(function (response) {
       if (response.length > 0) {
         response.forEach(bookID => {
           if (bookID[0] === wishlistID[m]) {
@@ -521,7 +529,7 @@ function findMatch() {
 function displayMatches(matchedBooks, matchedUsers) {
   console.log("matches=" + matchedBooks + "users=" + matchedUsers);
   //If there are any matches, display
-  if (matchedBooks.length > 0) {
+  if (matchedBooks) {
     for (var b = 0; b < matchedBooks.length; b++) {
       console.log(matchedBooks.length);
       $("#numberMatches").text(matchedBooks.length);
