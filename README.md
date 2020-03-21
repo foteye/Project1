@@ -2,6 +2,7 @@
 ### Foti, Shash, Daniel
 
 [Deployed At Github](https://foteye.github.io/Project1/ "Deployed at Github")
+[Link to presentation](https://docs.google.com/presentation/d/1Zl8M4riR9APsUFCoWQ_fyVF2KGeri4W63GHHeILcazs/edit?usp=sharing)
 
 ## Brief:
 This project aimed to demonstrate our skills in frontend development, as well as interacting with various API's. We aimed to explore new libraries and new ways of writing code, not only by ourselves, but in a team environment, using Git Hub. Together we thought of the things that really interested us, and came up with the concept of a Website that allows you to trade books with other people. We researched multiple API's and settled on two that would allow us to look up books, and store information.
