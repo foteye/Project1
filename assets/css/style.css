@@ -1,27 +1,70 @@
 .login_label {
-    position: relative;
+  position: relative;
 }
 
 .login_input {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 .login_area {
-    margin: 25px !important;
+  margin: 25px !important;
 }
 
 .dashboard {
-    padding: 20px;
+  padding: 20px;
 }
 
 .book_item {
-    margin: 20px 0;
+  margin: 20px 0;
 }
 
 .book_data {
-    margin: 0 15px;
+  margin: 0 15px;
 }
 
 .book_button {
-    margin: 5px 10px !important;
+  margin: 5px 10px !important;
+}
+
+/* .thumbnail {
+  width: auto;
+  height: auto;
+} */
+
+@media (max-width: 575px) {
+  img {
+    height: 80px;
+    width: 50px;
+  }
+}
+
+@media (min-width: 576px) {
+  img {
+    height: 160px;
+    width: 100px;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  img {
+    height: 200px;
+    width: 125px;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  img {
+    height: 320px;
+    width: 200px;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  img {
+    height: 400px;
+    width: 250px;
+  }
 }
